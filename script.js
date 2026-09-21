@@ -1758,6 +1758,21 @@ function setupRegistration() {
                     "register-message"
                 );
 
+                const isValidPassword =
+    password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9]/.test(password);
+
+if (!isValidPassword) {
+
+    message.textContent =
+        "Password does not meet all requirements.";
+
+    return;
+}
+
             try {
 
                 const response =
@@ -1904,7 +1919,6 @@ function setupLogin() {
         }
     );
 }
-
 // =====================================================
 // START EVERYTHING
 // =====================================================
@@ -1925,6 +1939,36 @@ document.addEventListener(
 
         setupLogin();
 
+        const toggleLoginPassword =
+    document.getElementById("toggle-login-password");
+
+const loginPassword =
+    document.getElementById("login-password");
+
+    if (toggleLoginPassword && loginPassword) {
+
+        toggleLoginPassword.addEventListener("click", function() {
+    
+            if (loginPassword.type === "password") {
+    
+                loginPassword.type = "text";
+    
+                this.innerHTML =
+                    '<i class="fa-solid fa-eye"></i>';
+    
+            } else {
+    
+                loginPassword.type = "password";
+    
+                this.innerHTML =
+                    '<i class="fa-solid fa-eye-slash"></i>';
+    
+            }
+    
+        });
+    
+    }
+
         updateAccountNavbar();
 
         updateCartCount();
@@ -1933,49 +1977,75 @@ document.addEventListener(
 
     }
 );
-function updateAccountNavbar() {
+const registerPassword =
+    document.getElementById("register-password");
 
-    const greeting =
-        document.getElementById("account-greeting");
+if (registerPassword) {
 
-    const accountLink =
-        document.getElementById("account-link");
+    registerPassword.addEventListener("input", function() {
 
-    if (!greeting || !accountLink) return;
+        const password = this.value;
 
-    const user =
-        getLoggedInUser();
+        const lengthRule =
+            document.getElementById("length-rule");
 
-    if (user) {
+        const uppercaseRule =
+            document.getElementById("uppercase-rule");
 
-        greeting.textContent =
-            `Hello, ${user.name}`;
+        const lowercaseRule =
+            document.getElementById("lowercase-rule");
 
-        accountLink.textContent =
-            "Logout";
+        const numberRule =
+            document.getElementById("number-rule");
 
-        accountLink.href = "#";
+        const specialRule =
+            document.getElementById("special-rule");
 
-        accountLink.onclick = function(event) {
 
-            event.preventDefault();
+        lengthRule.style.color =
+            password.length >= 8 ? "green" : "#777";
 
-            localStorage.removeItem(
-                "loggedInUser"
-            );
+        uppercaseRule.style.color =
+            /[A-Z]/.test(password) ? "green" : "#777";
 
-            window.location.reload();
-        };
+        lowercaseRule.style.color =
+            /[a-z]/.test(password) ? "green" : "#777";
 
-    } else {
+        numberRule.style.color =
+            /[0-9]/.test(password) ? "green" : "#777";
 
-        greeting.textContent =
-            "Hello, sign in";
+        specialRule.style.color =
+            /[^A-Za-z0-9]/.test(password) ? "green" : "#777";
 
-        accountLink.textContent =
-            "Account & Lists";
+    });
 
-        accountLink.href =
-            "login.html";
-    }
+}
+const toggleRegisterPassword =
+    document.getElementById("toggle-register-password");
+
+const registerPasswordField =
+    document.getElementById("register-password");
+
+if (toggleRegisterPassword && registerPasswordField) {
+
+    toggleRegisterPassword.addEventListener("click", function() {
+
+        if (registerPasswordField.type === "password") {
+
+            registerPasswordField.type = "text";
+
+            this.innerHTML =
+                '<i class="fa-solid fa-eye"></i>';
+
+        } else {
+
+            registerPasswordField.type = "password";
+
+            this.innerHTML =
+                '<i class="fa-solid fa-eye-slash"></i>';
+
+        }
+
+    });
+
 }
