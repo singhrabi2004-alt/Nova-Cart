@@ -1968,11 +1968,6 @@ const loginPassword =
         });
     
     }
-
-        updateAccountNavbar();
-
-        updateCartCount();
-
         loadProducts();
 
     }
