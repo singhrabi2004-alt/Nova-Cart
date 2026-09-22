@@ -33,7 +33,7 @@ async function loadProducts() {
         );
 
         setupProductPage();
-        setupProductDetails();
+        // setupProductDetails();
 
     } catch (error) {
 
